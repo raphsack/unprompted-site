@@ -205,6 +205,15 @@
       color: var(--muted);
     }
 
+    @keyframes highlight-pulse {
+      0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+      50% { box-shadow: 0 4px 20px rgba(26,26,26,0.15); }
+    }
+
+    .install-steps.highlight {
+      animation: highlight-pulse 0.8s ease-in-out 3;
+    }
+
     /* CLI section */
     .cli-section {
       padding: 48px 0;
@@ -315,8 +324,8 @@
       <a href="#" class="btn btn-primary">Chrome Web Store</a>
       <a href="#" class="btn btn-primary">Firefox Add-ons</a>
       -->
-      <a href="downloads/unprompted-chrome.zip" class="btn btn-primary" download>Download Chrome Extension</a>
-      <a href="downloads/unprompted-firefox.zip" class="btn btn-primary" download>Download Firefox Add-on</a>
+      <a href="downloads/unprompted-chrome.zip" class="btn btn-primary" download onclick="setTimeout(() => { const el = document.getElementById('install-steps'); el.scrollIntoView({behavior: 'smooth', block: 'center'}); el.classList.add('highlight'); setTimeout(() => el.classList.remove('highlight'), 2400); }, 100)">Download Chrome Extension</a>
+      <a href="downloads/unprompted-firefox.zip" class="btn btn-primary" download onclick="setTimeout(() => { const el = document.getElementById('install-steps'); el.scrollIntoView({behavior: 'smooth', block: 'center'}); el.classList.add('highlight'); setTimeout(() => el.classList.remove('highlight'), 2400); }, 100)">Download Firefox Add-on</a>
       <a href="#cli" class="btn btn-secondary">Claude Code Plugin</a>
     </div>
     <p style="text-align: center; font-size: 14px; color: var(--muted); margin-top: 12px;">
@@ -342,7 +351,7 @@
       </div>
     </section>
 
-    <section class="install-steps">
+    <section class="install-steps" id="install-steps">
       <h3>📦 How to Install</h3>
       <ol>
         <li>
