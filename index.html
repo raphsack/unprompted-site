@@ -157,36 +157,52 @@
 
     /* Install steps */
     .install-steps {
-      padding: 32px 0;
+      padding: 32px 24px;
       text-align: center;
-      max-width: 600px;
-      margin: 0 auto;
+      max-width: 640px;
+      margin: 24px auto 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
     }
 
     .install-steps h3 {
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 600;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
+      color: var(--text);
     }
 
     .install-steps ol {
       text-align: left;
       font-size: 14px;
-      color: var(--muted);
+      color: var(--text);
       line-height: 1.8;
       padding-left: 20px;
     }
 
     .install-steps ol li {
-      margin-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .install-steps ol li strong {
+      color: var(--text);
+      font-weight: 600;
     }
 
     .install-steps code {
       background: #f5f5f5;
-      padding: 2px 6px;
-      border-radius: 3px;
+      padding: 3px 7px;
+      border-radius: 4px;
       font-size: 13px;
       font-family: 'SF Mono', monospace;
+      color: #333;
+    }
+
+    .install-note {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--muted);
     }
 
     /* CLI section */
@@ -327,12 +343,25 @@
     </section>
 
     <section class="install-steps">
-      <h3>Installing Browser Extensions</h3>
+      <h3>📦 How to Install</h3>
       <ol>
-        <li><strong>Chrome:</strong> Download the zip, extract it, open <code>chrome://extensions</code>, enable "Developer mode", click "Load unpacked", select the extracted folder.</li>
-        <li><strong>Firefox:</strong> Download the zip, extract it, open <code>about:debugging#/runtime/this-firefox</code>, click "Load Temporary Add-on", select any file in the extracted folder.</li>
+        <li>
+          <strong>Chrome/Edge:</strong><br>
+          1. Download and extract the zip<br>
+          2. Open <code>chrome://extensions</code><br>
+          3. Enable "Developer mode" (top right)<br>
+          4. Click "Load unpacked"<br>
+          5. Select the extracted folder
+        </li>
+        <li>
+          <strong>Firefox:</strong><br>
+          1. Download and extract the zip<br>
+          2. Open <code>about:debugging#/runtime/this-firefox</code><br>
+          3. Click "Load Temporary Add-on"<br>
+          4. Select any file in the extracted folder
+        </li>
       </ol>
-      <p style="font-size: 13px; margin-top: 16px; color: var(--muted);">Note: Firefox temporary add-ons are removed when the browser restarts.</p>
+      <p class="install-note">⚠️ Note: Firefox temporary add-ons are removed when the browser restarts.</p>
     </section>
 
     <section class="sites">
@@ -380,7 +409,7 @@
     </section>
 
     <footer>
-      <p>Unprompted is free and privacy-first. <a href="https://github.com/yourusername/unprompted/blob/main/SECURITY.md">Security</a> · Questions? <a href="mailto:hello@unprompted.app">Get in touch</a></p>
+      <p>Unprompted is free and privacy-first. <a href="https://github.com/raphsack/unprompted-site/issues/new">Feedback</a></p>
     </footer>
   </div>
 
