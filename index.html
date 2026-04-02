@@ -293,6 +293,33 @@
       text-decoration: underline;
     }
 
+    /* Screenshots */
+    .screenshot-container {
+      margin-top: 32px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .screenshot {
+      width: 100%;
+      display: block;
+    }
+
+    .hero-screenshot {
+      margin-top: 48px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .usage-screenshot {
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
     @media (max-width: 600px) {
       .hero { padding: 48px 0 32px; }
       .hero h1 { font-size: 28px; }
@@ -331,6 +358,10 @@
     <p style="text-align: center; font-size: 14px; color: var(--muted); margin-top: 12px;">
       Manual installation required (load as unpacked/temporary extension).
     </p>
+
+    <div class="screenshot-container hero-screenshot">
+      <img src="screenshots/Unprompted-OnClaude.png" alt="Unprompted showing usage limit nudge on Claude.ai" class="screenshot">
+    </div>
 
     <section class="features">
       <div class="feature">
@@ -388,16 +419,22 @@
         <span class="site-pill">Character.ai</span>
         <span class="site-pill">Mistral</span>
       </div>
+      <div class="screenshot-container usage-screenshot">
+        <img src="screenshots/Unprompted-Usage.png" alt="Unprompted dashboard showing usage across multiple AI tools" class="screenshot">
+      </div>
     </section>
 
     <section class="cli-section" id="cli">
       <h2>Claude Code Plugin</h2>
-      <p>See your usage at the start of every session.</p>
+      <p>Persistent status line shows your usage throughout your session with color coding (green/yellow/red).</p>
       <div class="code-block">
         <span class="prompt">$</span> <span class="cmd">npx unprompted install</span><br>
         <br>
-        <span class="prompt"># Next time you open Claude Code:</span><br>
-        <span style="color:#7dcea0">Unprompted: 45m on Claude Code today (1h 15m left)</span>
+        <span class="prompt"># Status line appears at the bottom:</span><br>
+        <span style="color:#7dcea0">Unprompted: 40m today (1h 19m left)</span>
+      </div>
+      <div class="screenshot-container">
+        <img src="screenshots/Unprompted-ClaudeCodeStatus.png" alt="Unprompted status line in Claude Code" class="screenshot">
       </div>
     </section>
 
