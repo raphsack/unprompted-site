@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unprompted — Know when to stop</title>
+  <meta name="description" content="Free, privacy-first time tracking for LLM tools. Set daily limits for ChatGPT, Claude, Gemini, and more.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect width='96' height='96' rx='22' fill='%23f0ede8'/><rect x='22' y='28' width='46' height='7' rx='3.5' fill='%231a1a1a'/><rect x='22' y='41' width='34' height='7' rx='3.5' fill='%231a1a1a'/><rect x='22' y='54' width='40' height='7' rx='3.5' fill='%231a1a1a'/><circle cx='68' cy='66' r='13' fill='%23f0ede8' stroke='%231a1a1a' stroke-width='3'/><line x1='63' y1='66' x2='73' y2='66' stroke='%231a1a1a' stroke-width='3' stroke-linecap='round'/><line x1='54' y1='54' x2='64' y2='64' stroke='%231a1a1a' stroke-width='3' stroke-linecap='round'/></svg>">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #faf9f7;
+      --text: #1a1a1a;
+      --muted: #6b6b76;
+      --border: #e5e3de;
+      --card: #fff;
+      --accent: #1a1a1a;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 80px 0 48px;
+      text-align: center;
+    }
+
+    .hero-icon {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 24px;
+    }
+
+    .hero h1 {
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .hero .tagline {
+      font-size: 20px;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    .hero p {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* Install buttons */
+    .install-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 40px 0;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+
+    .btn:hover { opacity: 0.85; }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    /* Features */
+    .features {
+      padding: 48px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .feature {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .feature h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .feature p {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* Sites */
+    .sites {
+      padding: 32px 0;
+      text-align: center;
+    }
+
+    .sites h2 {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+
+    .site-pills {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .site-pill {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* Install steps */
+    .install-steps {
+      padding: 32px 0;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .install-steps h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .install-steps ol {
+      text-align: left;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.8;
+      padding-left: 20px;
+    }
+
+    .install-steps ol li {
+      margin-bottom: 8px;
+    }
+
+    .install-steps code {
+      background: #f5f5f5;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 13px;
+      font-family: 'SF Mono', monospace;
+    }
+
+    /* CLI section */
+    .cli-section {
+      padding: 48px 0;
+      text-align: center;
+    }
+
+    .cli-section h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .cli-section > p {
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .code-block {
+      background: #1a1a2e;
+      color: #e0e0e0;
+      border-radius: 10px;
+      padding: 20px 24px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 14px;
+      text-align: left;
+      max-width: 440px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    .code-block .prompt { color: #7c7c8a; }
+    .code-block .cmd { color: #a0d0ff; }
+
+    /* Privacy */
+    .privacy {
+      padding: 48px 0;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .privacy h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .privacy-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .privacy-item {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .privacy-item strong {
+      display: block;
+      color: var(--text);
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 32px 0;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .hero { padding: 48px 0 32px; }
+      .hero h1 { font-size: 28px; }
+      .features { grid-template-columns: 1fr; }
+      .privacy-grid { grid-template-columns: 1fr; gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <section class="hero">
+      <svg class="hero-icon" width="72" height="72" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+        <rect width="96" height="96" rx="22" fill="#f0ede8"/>
+        <rect x="22" y="28" width="46" height="7" rx="3.5" fill="#1a1a1a"/>
+        <rect x="22" y="41" width="34" height="7" rx="3.5" fill="#1a1a1a"/>
+        <rect x="22" y="54" width="40" height="7" rx="3.5" fill="#1a1a1a"/>
+        <circle cx="68" cy="66" r="13" fill="#f0ede8" stroke="#1a1a1a" stroke-width="3"/>
+        <line x1="63" y1="66" x2="73" y2="66" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+        <line x1="54" y1="54" x2="64" y2="64" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <h1>Unprompted</h1>
+      <p class="tagline">Know when to stop.</p>
+      <p>Free, privacy-first time tracking for AI tools. See how long you spend on ChatGPT, Claude, Gemini, and others. Set soft daily limits. Sync across devices with end-to-end encryption.</p>
+    </section>
+
+    <div class="install-buttons">
+      <!-- Store links (coming soon)
+      <a href="#" class="btn btn-primary">Chrome Web Store</a>
+      <a href="#" class="btn btn-primary">Firefox Add-ons</a>
+      -->
+      <a href="downloads/chrome.zip" class="btn btn-primary" download>Download Chrome Extension</a>
+      <a href="downloads/firefox.zip" class="btn btn-primary" download>Download Firefox Add-on</a>
+      <a href="#cli" class="btn btn-secondary">Claude Code Plugin</a>
+    </div>
+    <p style="text-align: center; font-size: 14px; color: var(--muted); margin-top: 12px;">
+      Manual installation required (load as unpacked/temporary extension).
+    </p>
+
+    <section class="features">
+      <div class="feature">
+        <h3>Track your time</h3>
+        <p>Automatic tracking across LLM websites and Claude Code. See today's usage at a glance.</p>
+      </div>
+      <div class="feature">
+        <h3>Set daily limits</h3>
+        <p>Per-site soft limits with gentle nudges when you're approaching your threshold.</p>
+      </div>
+      <div class="feature">
+        <h3>Sync across devices</h3>
+        <p>Optional encrypted sync using a secret key you control. No accounts, no sign-up.</p>
+      </div>
+      <div class="feature">
+        <h3>Fully private</h3>
+        <p>All data stays on your device. Sync is end-to-end encrypted. No analytics, no telemetry.</p>
+      </div>
+    </section>
+
+    <section class="install-steps">
+      <h3>Installing Browser Extensions</h3>
+      <ol>
+        <li><strong>Chrome:</strong> Download the zip, extract it, open <code>chrome://extensions</code>, enable "Developer mode", click "Load unpacked", select the extracted folder.</li>
+        <li><strong>Firefox:</strong> Download the zip, extract it, open <code>about:debugging#/runtime/this-firefox</code>, click "Load Temporary Add-on", select any file in the extracted folder.</li>
+      </ol>
+      <p style="font-size: 13px; margin-top: 16px; color: var(--muted);">Note: Firefox temporary add-ons are removed when the browser restarts.</p>
+    </section>
+
+    <section class="sites">
+      <h2>Tracks</h2>
+      <div class="site-pills">
+        <span class="site-pill">ChatGPT</span>
+        <span class="site-pill">Claude</span>
+        <span class="site-pill">Gemini</span>
+        <span class="site-pill">Copilot</span>
+        <span class="site-pill">Perplexity</span>
+        <span class="site-pill">Poe</span>
+        <span class="site-pill">Character.ai</span>
+        <span class="site-pill">Mistral</span>
+        <span class="site-pill">Claude Code</span>
+      </div>
+    </section>
+
+    <section class="cli-section" id="cli">
+      <h2>Claude Code Plugin</h2>
+      <p>See your usage at the start of every session.</p>
+      <div class="code-block">
+        <span class="prompt">$</span> <span class="cmd">npx unprompted install</span><br>
+        <br>
+        <span class="prompt"># Next time you open Claude Code:</span><br>
+        <span style="color:#7dcea0">Unprompted: 45m on Claude Code today (1h 15m left)</span>
+      </div>
+    </section>
+
+    <section class="privacy">
+      <h2>Privacy first</h2>
+      <div class="privacy-grid">
+        <div class="privacy-item">
+          <strong>No accounts</strong>
+          No sign-up, no login, no email.
+        </div>
+        <div class="privacy-item">
+          <strong>End-to-end encrypted</strong>
+          Sync uses AES-GCM-256 with auth protection. The server sees only opaque blobs.
+        </div>
+        <div class="privacy-item">
+          <strong>No tracking</strong>
+          No analytics, no telemetry, no third-party scripts.
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Unprompted is free and privacy-first. <a href="https://github.com/yourusername/unprompted/blob/main/SECURITY.md">Security</a> · Questions? <a href="mailto:hello@unprompted.app">Get in touch</a></p>
+    </footer>
+  </div>
+
+</body>
+</html>
